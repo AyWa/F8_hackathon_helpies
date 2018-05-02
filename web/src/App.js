@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import {Button, Icon, Navbar, NavItem, Row, Col, Card, CardTitle, Collection, CollectionItem} from 'react-materialize'
 
+import firebase from 'firebase';
 import Search from './components/search.js'
+import {provider, auth} from './client';
 
-import logo from './logo.svg';
+
+import logo from './static/img/helpies.svg';
 import './App.css';
 
 
@@ -12,6 +15,7 @@ class App extends Component {
     super(props);
 
     this.state = {
+      user: null,
       meetupListData: [
         {
           title: "Korea azure day",
@@ -22,16 +26,42 @@ class App extends Component {
         }
       ]
     }
+    
+  }
+
+  async login() {
+    const { user } = this.state;
+    console.log("hi");
+
+    const result = await auth().signInWithPopup(provider)
+    this.setState({user: result.user});
+  }
+
+  async logout() {
+    const { user } = this.state;
+
+    await auth().signOut()
+    this.setState({user: null});
+  }
+
+  async componentWillMount() {
+    const user = await auth().onAuthStateChanged();
+    if(user) this.setState({user})
   }
 
   render() {
-    const { meetupListData } = this.state;
+    const { meetupListData, user } = this.state;
+    console.log(user);
     return (
       <div className="App">
         <Navbar brand='Helpies' right>
-        <NavItem href='get-started.html'><Icon>search</Icon></NavItem>
-        <NavItem href='get-started.html'><Icon>more_vert</Icon></NavItem>
-      </Navbar>
+          <img src={logo}/>
+          <NavItem href='get-started.html'><Icon>search</Icon></NavItem>
+          {user ?
+            <NavItem><img src={user.photoURL}/> {user.displayName}</NavItem> : 
+            <NavItem onClick={this.login.bind(this)}>Login with Facebook</NavItem>
+          }
+        </Navbar>
       <Search />
       <Row>
         <Col s={7} className='grid-example'>
@@ -45,7 +75,12 @@ class App extends Component {
         <Collection>
           {
             meetupListData.map(meetup => {
-              return <CollectionItem>{meetup.title}</CollectionItem>
+              return (
+                <CollectionItem>
+                  <img src={meetup.img} style={{width: '170px', display: 'inline-block'}}/>
+                  {meetup.title}
+                </CollectionItem>
+              ) 
             })
           }
         </Collection>
