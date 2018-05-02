@@ -8,11 +8,11 @@ const client = new Wit({
   logger: new log.Logger(log.DEBUG) // optional
 });
 
-client.message('what is the weather in London?', {})
-.then((data) => {
-  console.log('Yay, got Wit.ai response: ' + JSON.stringify(data));
-})
-.catch(console.error);
+const safe = (f, def) => {
+  let res = def
+  try { res = f() } catch (e) { /* ignore */ }
+  return res
+}
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
@@ -100,3 +100,19 @@ function sendMessage(recipientId, message) {
     }
   });
 }
+
+// helper function to get user location from message
+const getLocationFromUserMessage = message => {
+  return new Promise(function(resolve, reject) {
+    client.message(message, {})
+    .then((data) => {
+      // TODO: Get the best confidence instead of first value
+      const location = safe(_ => data.entities.location[0].value, "")
+      console.log(`message: ${message} location: ${location}`);
+      resolve(location)
+    })
+    .catch(console.error);
+  });
+}
+// example of how to use getLocationFromUserMessage
+getLocationFromUserMessage("I am from seoul").then(location => console.log(location))
