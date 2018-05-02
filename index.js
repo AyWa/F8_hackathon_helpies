@@ -1,6 +1,18 @@
 var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
+const {Wit, log} = require('node-wit');
+
+const client = new Wit({
+  accessToken: process.env.WIT_TOKEN,
+  logger: new log.Logger(log.DEBUG) // optional
+});
+
+client.message('what is the weather in London?', {})
+.then((data) => {
+  console.log('Yay, got Wit.ai response: ' + JSON.stringify(data));
+})
+.catch(console.error);
 
 var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
