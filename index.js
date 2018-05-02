@@ -111,7 +111,7 @@ const sendMessageOne = ({senderId, role}) => {
 }
 
 const sendMessageTwo = ({senderId, role}) => {
-  return sendMessage(senderId, {text: role === "organizer" ? "What skills do you need ?": "What are your skills ?"})
+  return sendMessage(senderId, {text: role === "organizer" ? "what do you need help with ?": "What are your skills ?"})
 }
 
 const sendMessageThree = ({senderId}) => {
