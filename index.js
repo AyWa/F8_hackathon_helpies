@@ -84,6 +84,12 @@ function processPostback(event) {
       // create user in firebase:
       firebaseClient.createUsers({userId: senderId, name})
       sendMessage(senderId, {text: message});
+      // questions 0
+      sendQuickReplyMessage({
+        recipientId: senderId,
+        text: "Are you a volonteer or an organizer ?",
+        messages: ["volonteer", "organizer"],
+      })
     });
     firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 0})
     return
@@ -111,6 +117,32 @@ function sendMessage(recipientId, message) {
     json: {
       recipient: {id: recipientId},
       message: message,
+    }
+  }, function(error, response, body) {
+    if (error) {
+      console.log("Error sending message: " + response.error);
+    }
+  });
+}
+
+const sendQuickReplyMessage = ({recipientId, text, messages = []}) => {
+  request({
+    url: "https://graph.facebook.com/v2.6/me/messages",
+    qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+    method: "POST",
+    json: {
+      "recipient":{
+        "id": recipientId,
+      },
+      "message":{
+        "text": text,
+        "quick_replies": messages.map(text => ({
+          "content_type": text,
+          "title":"Search",
+          "payload":"<POSTBACK_PAYLOAD>",
+          // "image_url":"http://example.com/img/red.png"
+        })),
+      }
     }
   }, function(error, response, body) {
     if (error) {
