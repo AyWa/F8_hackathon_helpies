@@ -311,8 +311,8 @@ const getKeyWordsFromUserMessage = message => {
 
 const sendRecommendation = (userId) => {
   firebaseClient.getMatchingList({userId})
-    .then(idMatch = [] => {
-      if (idMatch.length === 0) {
+    .then(idMatch => {
+      if (!idMatch || idMatch.length === 0) {
         return
       }
       sendMessage(userId, {text: `${idMatch[0]} is looking for someone with your skill!`})
