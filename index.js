@@ -85,10 +85,20 @@ function processPostback(event) {
       firebaseClient.createUsers({userId: senderId, name})
       sendMessage(senderId, {text: message});
     });
-    firebaseClient.setUserBotQuestions({userId: senderId, nbQuestions: 0})
+    firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 0})
     return
   }
   // get userBotNbQuestions
+  firebaseClient.getUserBotQuestionsNb({userId: senderId}).then(nb => {
+    if (nb === 0) {
+      console.log("handler answer 1");
+      firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
+    } else if (nb === 1) {
+      console.log("handler answer 2");
+      firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
+      return
+    }
+  })
   // if case
 }
 
@@ -147,3 +157,4 @@ const getKeyWordsFromUserMessage = message => {
 // firebaseClient.addLocationToUser({userId: "idFromFacebookTest", location: "seoul"})
 // firebaseClient.addUserExperiences({userId: "idFromFacebookTest", experiences: ["webapp", "yolo"]})
 // firebaseClient.needs({userId: "idFromFacebookTest", needs: ["app"]})
+// firebaseClient.getUserBotQuestionsNb({userId: 1634780963305366}).then(nb => console.log(nb))

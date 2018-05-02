@@ -29,11 +29,21 @@ exports.createUsers = ({userId, email = "", name = "", location = ""}) => {
   console.log("A new user item:" + newUserId + " is created.");
 }
 
-exports.setUserBotQuestions = ({userId, nbQuestions}) => {
+exports.setUserBotQuestionsNb = ({userId, nbQuestions}) => {
   const nbQuestionsDb = userBotQuestions.child(userId)
 
   nbQuestionsDb.set(nbQuestions)
   console.log(`user ${userId} answer question ${nbQuestions}`);
+}
+
+// return promise with the nb of questions already answer
+exports.getUserBotQuestionsNb = ({userId}) => {
+  const nbQuestionsDb = userBotQuestions.child(userId)
+  return new Promise(resolve => {
+    nbQuestionsDb.once("value", snapshot  => {
+      resolve(snapshot.val())
+    });
+  });
 }
 
 exports.addLocationToUser = ({userId, location = ""}) => {
