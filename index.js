@@ -102,11 +102,15 @@ const sendMessageZero = senderId => {
     messages: ["volonteer", "organizer"],
   })
 }
+
+const sendMessageOne = senderId => {
+  return sendMessage(senderId, {text: "What is your city ?"})
+}
+
 const messageHandle = (event) => {
   // get userBotNbQuestions
   console.log("PAYLOAD LOG", event);
   const senderId = safe(() => event.sender.id)
-  const message = safe(() => event.message.quick_reply.payload)
   if (!senderId) {
     return
   }
@@ -114,17 +118,21 @@ const messageHandle = (event) => {
   firebaseClient.getUserBotQuestionsNb({userId: senderId}).then(nb => {
     console.log(`handle bot question for user: ${senderId}`);
     if (nb === 0) {
+      const message = safe(() => event.message.quick_reply.payload)
       if (message !== "volonteer" && message!== "organizer") {
         // sendMessageZero(senderId)
       } else {
         console.log("handler answer 1");
         firebaseClient.addRoleToUser({userId: senderId, role: message})
         firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
+        sendMessageOne(senderId)
       }
     } else if (nb === 1) {
-      console.log("handler answer 2");
-      firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
-      return
+      const message = safe(() => event.message)
+      console.log(message);
+      // getLocationFromUserMessage()
+      // console.log("handler answer 2");
+      // firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
     }
   })
   // console.log(message);
