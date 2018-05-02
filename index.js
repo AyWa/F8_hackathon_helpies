@@ -161,7 +161,7 @@ function sendMessage(recipientId, message) {
   });
 }
 
-const sendQuickReplyMessage = ({recipientId, text = "", messages = []}) => {
+const sendQuickReplyMessage = ({recipientId, text = "", messages = [], questionNb = 0}) => {
   return new Promise((resolve, reject) => {
     console.log("will try to send quick reply Message");
     request({
@@ -172,10 +172,10 @@ const sendQuickReplyMessage = ({recipientId, text = "", messages = []}) => {
         recipient: {"id": recipientId},
         "message":{
           "text": text,
-          "quick_replies": messages.map(text => ({
+          "quick_replies": messages.map(t => ({
             "content_type": "text",
-            "title": text,
-            "payload":"<POSTBACK_PAYLOAD>",
+            "title": t,
+            "payload": t,
             // "image_url":"http://example.com/img/red.png"
           })),
         }
