@@ -115,7 +115,7 @@ const sendMessageTwo = ({senderId, role}) => {
 }
 
 const sendMessageThree = ({senderId}) => {
-  return sendMessage(senderId, {text: "Can you write a small description about yourself ? Or any achievement you are prood of ?"})
+  return sendMessage(senderId, {text: "Can you write a small description about yourself ? Or any achievement you are proud of ?"})
 }
 
 const sendMessageFour = ({senderId, role, skills, location}) => {
