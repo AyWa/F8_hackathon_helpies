@@ -154,7 +154,7 @@ const messageHandle = (event) => {
       })
     } else if (nb === 2) {
       console.log("handler answer 3");
-      const message = safe(() => event.message.text)
+      const message = safe(() => event.message.text, "")
       console.log(`message ${message}`);
       getKeyWordsFromUserMessage(message).then(keywords => {
         console.log(`user ${senderId} need/has`, keywords);
@@ -168,8 +168,9 @@ const messageHandle = (event) => {
             firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 3})
             sendMessageThree({senderId, role: role})
           })
-        } else {
-          sendMessage(senderId, {text: `please try again with an other answer`}).then(_ => sendMessageTwo({senderId, role}))
+        } else if (message) {
+          sendMessage(senderId, {text: `please try again with an other answer`})
+            .then(_ => sendMessageTwo({senderId, role}))
         }
       })
     }
