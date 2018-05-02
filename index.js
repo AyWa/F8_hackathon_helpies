@@ -114,7 +114,7 @@ const messageHandle = (event) => {
   firebaseClient.getUserBotQuestionsNb({userId: senderId}).then(nb => {
     if (nb === 0) {
       if (message !== "volonteer" && message!== "organizer") {
-        sendMessageZero(senderId)
+        // sendMessageZero(senderId)
       } else {
         console.log("handler answer 1");
         firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
