@@ -1,28 +1,128 @@
-.App {
-  text-align: center;
+body {
+  font-family: 'Varela Round', sans-serif;
+}
+#root, .App, .ScrollToTop, .ant-layout {
+  height: 100%;
+}
+.ant-layout {
+  background: #f9f9f9 !important;
+}
+.ant-layout-header {
+  /* text-align: center; */
+  /* padding: 1rem; */
+  background: transparent !important;
+}
+.ant-layout-header span {
+  float: left;
+  margin-left: -4px;
+  color: #676767;
+}
+.ant-menu {
+  background: transparent !important;
+}
+.logo {
+  height: 2.5rem;
+  float: left;
+  vertical-align: middle;
+  height: 100%;
+  padding: 15px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.ant-layout-content {
+  padding: 0 5rem;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  max-width: 980px;
+  width: 99.9%;
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+.login-box {
+  float: right;
+}
+.login-box img {
+  border-radius: 50%;
+}
+.button-facebook {
+  background: #405daa;
+  line-height: 30px;
+  margin-top: 13px;
+  padding: 4px 15px;
   color: white;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
-.App-title {
-  font-size: 1.5em;
+
+
+
+.intro p {
+  font-size: 3rem;
+  font-family: 'Patua One', cursive;
+  margin-bottom: 0.2rem;
+}
+.ant-radio-group {
+  font-family: 'Patua One', cursive;
+  font-size: 2rem;
+}
+.ant-form-item label {
+  height: 3rem;
+  line-height: 3rem;
+}
+.radio-selection {
+  display: inline-block !important;
 }
 
-.App-intro {
-  font-size: large;
+
+
+
+
+.header {
+  font-size: 2rem;
+  font-family: 'Patua One', cursive;
+  margin: 1rem 0;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.meetup-info-box {
+  display: flex;
+}
+
+.meetup-img {
+  flex-shrink: 1;
+    margin-right: 29px;
+  
+}
+.meetup-img img {
+  width: 100%;
+}
+.meetup-info {
+  width: 230px;
+  padding-top: 14px;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  word-break: keep-all;
+}
+.meetup-info i {
+  float: left;
+  margin: 5px 1rem 5px 0px;
+}
+.meetup-title {
+  font-size: 2rem;
+  font-family: 'Patua One', cursive;
+}
+.meetup-venue {
+  margin-bottom: 3rem;
+}
+.meetup-time {
+  margin-top: 10px;
+}
+.meetup-hashtag {
+  border-top: 1px solid #e8e8e8;
+  margin: 0 -24px;
+  padding: 14px 1rem 0;
+  text-align: right;
+  color: #4492c9;
+}
+.meetup-hashtag span {
+  cursor: pointer;
+  margin-left: 0.6rem;
 }
