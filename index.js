@@ -111,6 +111,12 @@ const sendMessageTwo = ({senderId, role}) => {
   return sendMessage(senderId, {text: role === "organizer" ? "What skills do you need ?": "What are your skills ?"})
 }
 
+const sendMessageThree = ({senderId, role}) => {
+  return sendMessage(senderId, {text: role === "organizer" ?
+    "Thank you we will match some volonteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/":
+    "Thank you for your help to the community ;)."})
+}
+
 const messageHandle = (event) => {
   // get userBotNbQuestions
   // console.log("PAYLOAD LOG", event);
@@ -157,6 +163,8 @@ const messageHandle = (event) => {
             } else {
               firebaseClient.addUserExperiences({userId: senderId, experiences: keywords})
             }
+            firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 3})
+            sendMessageThree({userId: senderId, role: role})
           })
         }
       })
