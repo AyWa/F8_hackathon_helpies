@@ -113,7 +113,7 @@ const sendMessageTwo = ({senderId, role}) => {
 
 const messageHandle = (event) => {
   // get userBotNbQuestions
-  console.log("PAYLOAD LOG", event);
+  // console.log("PAYLOAD LOG", event);
   const senderId = safe(() => event.sender.id)
   if (!senderId) {
     return
@@ -122,9 +122,10 @@ const messageHandle = (event) => {
   firebaseClient.getUserBotQuestionsNb({userId: senderId}).then(nb => {
     console.log(`handle bot question for user: ${senderId}`);
     if (nb === 0) {
+      console.log("handler answer 1");
       const message = safe(() => event.message.quick_reply.payload)
+      console.log(`message ${message}`);
       if (message === "volonteer" || message === "organizer") {
-        console.log("handler answer 1");
         firebaseClient.addRoleToUser({userId: senderId, role: message})
         firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
         sendMessageOne({senderId, role: message})
@@ -132,6 +133,7 @@ const messageHandle = (event) => {
     } else if (nb === 1) {
       console.log("handler answer 2");
       const message = safe(() => event.message.text)
+      console.log(`message ${message}`);
       getLocationFromUserMessage(message).then(location => {
         console.log(`user ${senderId} is from ${location}`);
         if (location) {
@@ -143,8 +145,9 @@ const messageHandle = (event) => {
         }
       })
     } else if (nb === 2) {
-      console.log("handler answer 2");
+      console.log("handler answer 3");
       const message = safe(() => event.message.text)
+      console.log(`message ${message}`);
       getKeyWordsFromUserMessage(message).then(keywords => {
         if (keywords) {
           firebaseClient.getUserRole({userId: senderId}).then(role => {
