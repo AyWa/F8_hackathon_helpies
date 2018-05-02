@@ -118,9 +118,9 @@ const sendMessageTwo = ({senderId, role}) => {
 const sendMessageThree = ({senderId, role, skills, location}) => {
   return sendMessage(senderId, {text: role === "organizer" ?
     "Thank you we will match you with some volunteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/."
-      + ` We also advice you to post on those hashtags${skills.map(s => "; https://www.instagram.com/explore/tags/" + s + location)}`
+      + ` We also advice you to post on those hashtags${skills.map(s => "; https://www.instagram.com/explore/tags/" + s.split(" ").join("") + location)}`
     : "Thank you for your help to the community ;)."
-      + `You can also follow those hastags${skills.map(s => "; https://www.instagram.com/explore/tags/" + s + location)}`
+      + `You can also follow those hastags${skills.map(s => "; https://www.instagram.com/explore/tags/" + s.split(" ").join("") + location)}`
 
   })
 }
