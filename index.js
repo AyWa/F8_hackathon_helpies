@@ -186,6 +186,9 @@ const messageHandle = (event) => {
     } else if (nb === 3) {
       console.log("handler answer 4");
       const message = safe(() => event.message.text, "")
+      if (!message) {
+        return
+      }
       console.log(`message ${message}`);
       firebaseClient.addIntroduction({userId: senderId, introduction: message})
       firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 4})
