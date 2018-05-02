@@ -144,8 +144,9 @@ const messageHandle = (event) => {
       console.log(`message ${message}`);
       if (message === "volunteer" || message === "organizer") {
         firebaseClient.addRoleToUser({userId: senderId, role: message})
-        firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
-        sendMessageOne({senderId, role: message})
+        sendMessageOne({senderId, role: message}).then(_ => {
+          firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
+        })
       }
     } else if (nb === 1) {
       console.log("handler answer 2");
@@ -155,9 +156,9 @@ const messageHandle = (event) => {
         console.log(`user ${senderId} is from ${location}`);
         if (location) {
           firebaseClient.addLocationToUser({userId: senderId, location})
-          firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
           firebaseClient.getUserRole({userId: senderId}).then(role => {
             sendMessageTwo({senderId, role})
+            firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
           })
         }
       })
@@ -174,8 +175,9 @@ const messageHandle = (event) => {
             } else {
               firebaseClient.addUserExperiences({userId: senderId, experiences: keywords})
             }
-            firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 3})
-            sendMessageThree({senderId})
+            sendMessageThree({senderId}).then(_ =>
+              firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 3})
+            )
           })
         } else if (message) {
           sendMessage(senderId, {text: `please try again with an other answer`})
