@@ -119,17 +119,22 @@ const messageHandle = (event) => {
     console.log(`handle bot question for user: ${senderId}`);
     if (nb === 0) {
       const message = safe(() => event.message.quick_reply.payload)
-      if (message !== "volonteer" && message!== "organizer") {
-        // sendMessageZero(senderId)
-      } else {
+      if (message === "volonteer" || message === "organizer") {
         console.log("handler answer 1");
         firebaseClient.addRoleToUser({userId: senderId, role: message})
         firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
         sendMessageOne(senderId)
       }
     } else if (nb === 1) {
-      const message = safe(() => event.message)
-      console.log(message);
+      console.log("handler answer 2");
+      const message = safe(() => event.message.text)
+      getLocationFromUserMessage(message).then(location => {
+        console.log(`user ${userId} is from ${location}`);
+        if (location) {
+          firebaseClient.addLocationToUser({userId: senderId, location})
+          firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
+        }
+      })
       // getLocationFromUserMessage()
       // console.log("handler answer 2");
       // firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
