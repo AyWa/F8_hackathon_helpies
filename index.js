@@ -112,6 +112,7 @@ const messageHandle = (event) => {
   }
 
   firebaseClient.getUserBotQuestionsNb({userId: senderId}).then(nb => {
+    console.log(`handle bot question for user: ${senderId}`);
     if (nb === 0) {
       if (message !== "volonteer" && message!== "organizer") {
         // sendMessageZero(senderId)
