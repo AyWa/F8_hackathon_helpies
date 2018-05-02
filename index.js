@@ -71,7 +71,7 @@ function processPostback(event) {
         fields: "first_name"
       },
       method: "GET"
-    }, function(error, response, body) {
+    }, (error, response, body) => {
       var greeting = "";
       if (error) {
         console.log("Error getting user's name: " +  error);
@@ -83,12 +83,13 @@ function processPostback(event) {
       var message = greeting + "My name is Helpies Bot. We are matching volonteers and organizers";
       // create user in firebase:
       firebaseClient.createUsers({userId: senderId, name})
-      sendMessage(senderId, {text: message});
-      // questions 0
-      sendQuickReplyMessage({
-        recipientId: senderId,
-        text: "Are you a volonteer or an organizer ?",
-        messages: ["volonteer", "organizer"],
+      sendMessage(senderId, {text: message}).then(_ => {
+        // questions 0
+        sendQuickReplyMessage({
+          recipientId: senderId,
+          text: "Are you a volonteer or an organizer ?",
+          messages: ["volonteer", "organizer"],
+        })
       })
     });
     firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 0})
@@ -110,43 +111,51 @@ function processPostback(event) {
 
 // sends message to user
 function sendMessage(recipientId, message) {
-  request({
-    url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
-    method: "POST",
-    json: {
-      recipient: {id: recipientId},
-      message: message,
-    }
-  }, function(error, response, body) {
-    if (error) {
-      console.log("Error sending message: " + response.error);
-    }
+  return new Promise((resolve, reject) => {
+    request({
+      url: "https://graph.facebook.com/v2.6/me/messages",
+      qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+      method: "POST",
+      json: {
+        recipient: {id: recipientId},
+        message: message,
+      }
+    }, (error, response, body) => {
+      if (error) {
+        console.log("Error sending message: " + response.error);
+        reject()
+      }
+      resolve()
+    });
   });
 }
 
 const sendQuickReplyMessage = ({recipientId, text = "", messages = []}) => {
-  console.log("will try to send quick reply Message");
-  request({
-    url: "https://graph.facebook.com/v2.6/me/messages",
-    qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
-    method: "POST",
-    json: {
-      recipient: {"id": recipientId},
-      "message":{
-        "text": text,
-        "quick_replies": messages.map(text => ({
-          "content_type": "text",
-          "title": text,
-          "payload":"<POSTBACK_PAYLOAD>",
-          // "image_url":"http://example.com/img/red.png"
-        })),
+  return new Promise((resolve, reject) => {
+    console.log("will try to send quick reply Message");
+    request({
+      url: "https://graph.facebook.com/v2.6/me/messages",
+      qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+      method: "POST",
+      json: {
+        recipient: {"id": recipientId},
+        "message":{
+          "text": text,
+          "quick_replies": messages.map(text => ({
+            "content_type": "text",
+            "title": text,
+            "payload":"<POSTBACK_PAYLOAD>",
+            // "image_url":"http://example.com/img/red.png"
+          })),
+        }
       }
-    }
-  }, function(error, response, body) {
-    if (error) {
-      console.log("Error sending message: " + response.error);
-    }
+    }, (error, response, body) => {
+      if (error) {
+        console.log("Error sending message: " + response.error);
+        reject()
+      }
+      resolve()
+    });
   });
 }
 
