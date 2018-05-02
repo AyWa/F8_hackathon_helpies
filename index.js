@@ -168,8 +168,9 @@ const messageHandle = (event) => {
             firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 3})
             sendMessageThree({senderId, role: role})
           })
-        } else {
-          sendMessage(senderId, {text: `please try again with an other answer`}).then(_ => sendMessageTwo({senderId, role}))
+        } else if (message) {
+          sendMessage(senderId, {text: `please try again with an other answer`})
+            .then(_ => sendMessageTwo({senderId, role}))
         }
       })
     }
