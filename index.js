@@ -1,29 +1,25 @@
-const http = require('http')
-const Bot = require('messenger-bot')
+var express = require("express");
+var request = require("request");
+var bodyParser = require("body-parser");
 
-let bot = new Bot({
-  app_secret: 'EAAd73TLwaw0BAAxaeXLoZAqHzcMJYZCei1y1nqLDh7m4dLb9w3mmZCTUmrZAQtJdsQuXiZCKi7aSbRbZB6YKP7RVkgvYycCscnEBM0xgZBJVVxhXZB2L5hJJSUMSYp0eZB02ulW42prDCMcgSF6aaqFA6hJJAozBZADIKPKoyuj0BtbAZDZD',
-  verify: 'helpies',
-  token: '2106514809580301'
-})
+var app = express();
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.listen((process.env.PORT || 5000));
 
-bot.on('error', (err) => {
-  console.log(err.message)
-})
+// Server index page
+app.get("/", function (req, res) {
+  res.send("Deployed!");
+});
 
-bot.on('message', (payload, reply) => {
-  let text = payload.message.text
-
-  bot.getProfile(payload.sender.id, (err, profile) => {
-    if (err) throw err
-
-    reply({ text }, (err) => {
-      if (err) throw err
-
-      console.log(`Echoed back to ${profile.first_name} ${profile.last_name}: ${text}`)
-    })
-  })
-})
-
-http.createServer(bot.middleware()).listen(3000)
-console.log('Echo bot server running at port 3000')
+// Facebook Webhook
+// Used for verification
+app.get("/webhook", function (req, res) {
+  if (req.query["hub.verify_token"] === "this_is_my_token") {
+    console.log("Verified webhook");
+    res.status(200).send(req.query["hub.challenge"]);
+  } else {
+    console.error("Verification failed. The tokens do not match.");
+    res.sendStatus(403);
+  }
+});
