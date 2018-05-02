@@ -41,14 +41,18 @@ app.get("/webhook", function (req, res) {
 // All callbacks for Messenger will be POST-ed here
 app.post("/webhook", function (req, res) {
   // Make sure this is a page subscription
+  console.log("debug:", req.body);
   if (req.body.object == "page") {
     // Iterate over each entry
     // There may be multiple entries if batched
     req.body.entry.forEach(function(entry) {
       // Iterate over each messaging event
       entry.messaging.forEach(function(event) {
+        console.log("debug:", event)
         if (event.postback) {
           processPostback(event);
+        } else {
+          messageHandle(event)
         }
       });
     });
@@ -93,19 +97,24 @@ function processPostback(event) {
       })
     });
     firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 0})
-    return
   }
+}
+
+const messageHandle = (event) => {
   // get userBotNbQuestions
-  firebaseClient.getUserBotQuestionsNb({userId: senderId}).then(nb => {
-    if (nb === 0) {
-      console.log("handler answer 1");
-      firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
-    } else if (nb === 1) {
-      console.log("handler answer 2");
-      firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
-      return
-    }
-  })
+  console.log("PAYLOAD LOG", event);
+  // const senderId = sender.id
+  // console.log(message);
+  // firebaseClient.getUserBotQuestionsNb({userId: senderId}).then(nb => {
+  //   if (nb === 0) {
+  //     console.log("handler answer 1");
+  //     firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
+  //   } else if (nb === 1) {
+  //     console.log("handler answer 2");
+  //     firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
+  //     return
+  //   }
+  // })
   // if case
 }
 
