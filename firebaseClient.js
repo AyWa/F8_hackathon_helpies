@@ -28,12 +28,11 @@ exports.createUsers = ({userId, email = "", name = "", location = ""}) => {
 
 exports.addLocationToUser = ({userId, location = ""}) => {
   // Fetch the user's email.
-  const newUser = userRef.child(userId)
+  const updateUser = userRef.child(userId)
 
-  newUser.set({
+  updateUser.update({
     "location": location,
   });
 
-  var newUserId = newUser.key;
   console.log(`location ${location} added to user ${userId}`);
 }
