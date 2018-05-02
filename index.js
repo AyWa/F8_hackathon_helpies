@@ -103,8 +103,8 @@ const sendMessageZero = senderId => {
   })
 }
 
-const sendMessageOne = senderId => {
-  return sendMessage(senderId, {text: "What is your city ?"})
+const sendMessageOne = ({senderId, role}) => {
+  return sendMessage(senderId, {text: role === "organizer" ? "In which city you need help ?" : "In which city you want to help ?"})
 }
 
 const sendMessageTwo = ({senderId, role}) => {
@@ -127,7 +127,7 @@ const messageHandle = (event) => {
         console.log("handler answer 1");
         firebaseClient.addRoleToUser({userId: senderId, role: message})
         firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
-        sendMessageOne(senderId)
+        sendMessageOne({senderId, role: message})
       }
     } else if (nb === 1) {
       console.log("handler answer 2");
