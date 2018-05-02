@@ -126,3 +126,11 @@ body {
   cursor: pointer;
   margin-left: 0.6rem;
 }
+
+.ant-card-cover {
+  min-height: 139px;
+}
+
+.ant-card {
+  margin-bottom: 1rem;
+}

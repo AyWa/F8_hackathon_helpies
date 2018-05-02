@@ -7,7 +7,8 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      meetupList: [{
+      meetupList: [
+        {
           id: 1,
           title: "Korea azure day",
           img: "https://s3.ap-northeast-2.amazonaws.com/festa-temp/saturday-azure-live-1805-images/saturday-azure-live-1805-cover.png"
@@ -15,6 +16,22 @@ class Home extends Component {
           id: 2,
           title: "F8 hackathon",
           img: "https://s3.ap-northeast-2.amazonaws.com/festa-temp/django-girls-images/django-girls-cover.png"
+        }, {
+          id: 3,
+          title: "American Red Cross",
+          img: "https://upload.wikimedia.org/wikipedia/en/7/7f/American_Red_Cross_logo.svg"
+        }, {
+          id: 4,
+          title: "Meals on Wheels",
+          img: "https://betterlivesleeds.files.wordpress.com/2016/11/mowlogo.jpg?w=640&h=320"
+        }, {
+          id: 5,
+          title: "Tutoring",
+          img: "https://uwaylc.org/get/files/image/galleries/Reader-Tutor-Mentor.png"
+        }, {
+          id: 6,
+          title: "Earth Day",
+          img: "https://liferaftgroup.org/wp-content/uploads/2015/04/volunteer.jpg"
         }
       ]
     }
