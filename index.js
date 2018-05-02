@@ -86,7 +86,7 @@ function processPostback(event) {
         name = bodyObj.first_name;
         greeting = "Hi " + name + ". ";
       }
-      var message = greeting + "My name is Helpies Bot. We are matching volonteers and organizers";
+      var message = greeting + "My name is Helpies Bot. We are matching volunteers and organizers";
       // create user in firebase:
       firebaseClient.createUsers({userId: senderId, name})
       sendMessage(senderId, {text: message}).then(_ => {
@@ -100,8 +100,8 @@ function processPostback(event) {
 const sendMessageZero = senderId => {
   return sendQuickReplyMessage({
     recipientId: senderId,
-    text: "Are you a volonteer or an organizer ?",
-    messages: ["volonteer", "organizer"],
+    text: "Are you a volunteer or an organizer ?",
+    messages: ["volunteer", "organizer"],
   })
 }
 
@@ -115,7 +115,7 @@ const sendMessageTwo = ({senderId, role}) => {
 
 const sendMessageThree = ({senderId, role}) => {
   return sendMessage(senderId, {text: role === "organizer" ?
-    "Thank you we will match you with some volonteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/":
+    "Thank you we will match you with some volunteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/":
     "Thank you for your help to the community ;)."})
 }
 
@@ -133,7 +133,7 @@ const messageHandle = (event) => {
       console.log("handler answer 1");
       const message = safe(() => event.message.quick_reply.payload)
       console.log(`message ${message}`);
-      if (message === "volonteer" || message === "organizer") {
+      if (message === "volunteer" || message === "organizer") {
         firebaseClient.addRoleToUser({userId: senderId, role: message})
         firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
         sendMessageOne({senderId, role: message})
