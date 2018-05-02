@@ -77,6 +77,16 @@ exports.addLocationToUser = ({userId, location = ""}) => {
   console.log(`location ${location} added to user ${userId}`);
 }
 
+exports.addIntroduction = ({userId, introduction}) => {
+  const updateUser = userRef.child(userId)
+
+  updateUser.update({
+    introduction,
+  });
+
+  console.log(`introduction ${introduction} added to user ${userId}`);
+}
+
 exports.getLocationUser = ({userId}) => {
   const updateUser = userRef.child(userId)
   return new Promise(resolve => {
@@ -92,6 +102,24 @@ exports.addUserExperiences = ({userId, experiences = []}) => {
   newUserExperiences.set(experiences)
 
   console.log(`${experiences.length} experiences are added to user ${userId}`);
+}
+
+exports.getSkills = ({userId, role}) => {
+  if (role === "organizer") {
+    const newUserNeed = needsRef.child(userId)
+    return new Promise(resolve => {
+      newUserNeed.once("value", snapshot  => {
+        resolve(snapshot.val())
+      });
+    });
+  } else {
+    const newUserExperiences = experiencesRef.child(userId)
+    return new Promise(resolve => {
+      newUserExperiences.once("value", snapshot  => {
+        resolve(snapshot.val())
+      });
+    });
+  }
 }
 
 exports.addUserNeeds = ({userId, needs = []}) => {

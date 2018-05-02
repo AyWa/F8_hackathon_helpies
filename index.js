@@ -114,7 +114,11 @@ const sendMessageTwo = ({senderId, role}) => {
   return sendMessage(senderId, {text: role === "organizer" ? "What skills do you need ?": "What are your skills ?"})
 }
 
-const sendMessageThree = ({senderId, role, skills, location}) => {
+const sendMessageThree = ({senderId}) => {
+  return sendMessage(senderId, {text: "Can you write a small description about yourself ? Or any achievement you are prood of ?"})
+}
+
+const sendMessageFour = ({senderId, role, skills, location}) => {
   return sendMessage(senderId, {text: role === "organizer" ?
     "Thank you we will match you with some volunteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/."
       + ` We also advice you to post on those hashtags${skills.map(s => "; https://www.instagram.com/explore/tags/" + s.split(" ").join("") + location)}`
@@ -171,13 +175,24 @@ const messageHandle = (event) => {
               firebaseClient.addUserExperiences({userId: senderId, experiences: keywords})
             }
             firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 3})
-            firebaseClient.getLocationUser({userId: senderId}).then(location =>
-              sendMessageThree({senderId, role: role, skills: keywords, location})
-            )
+            sendMessageThree({senderId})
           })
         } else if (message) {
           sendMessage(senderId, {text: `please try again with an other answer`})
         }
+      })
+    } else if (nb === 3) {
+      console.log("handler answer 3");
+      const message = safe(() => event.message.text, "")
+      console.log(`message ${message}`);
+      firebase.addIntroduction({userId: senderId, introduction: message})
+      firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 4})
+      firebaseClient.getUserRole({userId: senderId}).then(role => {
+        firebaseClient.getLocationUser({userId: senderId}).then(location =>
+          firebaseClient.getSkills({userId: senderId, role}).then(skills => {
+            sendMessageFour({senderId, role: role, skills, location})
+          })
+        )
       })
     }
   })
