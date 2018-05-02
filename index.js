@@ -74,7 +74,7 @@ function processPostback(event) {
       url: "https://graph.facebook.com/v2.6/" + senderId,
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN,
-        fields: "first_name"
+        fields: ["first_name", "picture"]
       },
       method: "GET"
     }, (error, response, body) => {
@@ -84,6 +84,8 @@ function processPostback(event) {
       } else {
         var bodyObj = JSON.parse(body);
         name = bodyObj.first_name;
+        picture = bodyObj.picture;
+        console.log(bodyObj);
         greeting = "Hi " + name + ". ";
       }
       var message = greeting + "My name is Helpies Bot. We are matching volunteers and organizers";
