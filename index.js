@@ -120,7 +120,7 @@ const sendMessageThree = ({senderId}) => {
 
 const sendMessageFour = ({senderId, role, skills, location}) => {
   return sendMessage(senderId, {text: role === "organizer" ?
-    "Thank you we will match you with some volunteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/."
+    "Thank you we will match you with some volunteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/meetup"
       + ` We also advice you to post on those hashtags${skills.map(s => "; https://www.instagram.com/explore/tags/" + s.split(" ").join("") + location)}`
     : "Thank you for your help to the community. We don't have an opportunity that fits your skills at the moment. We will let you know if we find something. In the meantime, follow these hashtags:"
       + `${skills.map(s => " https://www.instagram.com/explore/tags/" + s.split(" ").join("") + location)}`
