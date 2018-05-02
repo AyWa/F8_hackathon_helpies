@@ -81,6 +81,8 @@ function processPostback(event) {
         greeting = "Hi " + name + ". ";
       }
       var message = greeting + "My name is Helpies Bot. We are matching volonteers and organizers";
+      // create user in firebase:
+      firebaseClient.createUsers({userId: senderId, name})
       sendMessage(senderId, {text: message});
     });
   }
@@ -117,7 +119,7 @@ const getLocationFromUserMessage = message => {
   });
 }
 // example of how to use getLocationFromUserMessage
-getLocationFromUserMessage("I am from seoul").then(location => console.log(location))
+// getLocationFromUserMessage("I am from seoul").then(location => console.log(location))
 
 
 // helper function to get user keyword
@@ -134,8 +136,8 @@ const getKeyWordsFromUserMessage = message => {
   });
 }
 // example of how to use getLocationFromUserMessage
-getKeyWordsFromUserMessage("I need a webapp").then(keywords => console.log(keywords))
+// getKeyWordsFromUserMessage("I need a webapp").then(keywords => console.log(keywords))
 
 // example to create user
-firebaseClient.createUsers({userId: "idFromFacebookTest", name: "test"})
-firebaseClient.addLocationToUser({userId: "idFromFacebookTest", location: "seoul"})
+// firebaseClient.createUsers({userId: "idFromFacebookTest", name: "test"})
+// firebaseClient.addLocationToUser({userId: "idFromFacebookTest", location: "seoul"})
