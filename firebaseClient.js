@@ -16,13 +16,14 @@ const userBotQuestions = firebase.database().ref("/botQuestions/")
 const experiencesRef = firebase.database().ref("/experiences/")
 const needsRef = firebase.database().ref("/needs/")
 
-exports.createUsers = ({userId, email = "", name = "", location = ""}) => {
+exports.createUsers = ({userId, email = "", name = "", location = "", role = ""}) => {
   const newUser = userRef.child(userId)
 
   newUser.set({
     "name": name,
     "email": email,
     "location": location,
+    "role": role,
   });
 
   var newUserId = newUser.key;
@@ -46,8 +47,17 @@ exports.getUserBotQuestionsNb = ({userId}) => {
   });
 }
 
+exports.addRoleToUser = ({userId, role}) => {
+  const updateUser = userRef.child(userId)
+
+  updateUser.update({
+    "role": role,
+  });
+
+  console.log(`role ${role} added to user ${userId}`);
+}
+
 exports.addLocationToUser = ({userId, location = ""}) => {
-  // Fetch the user's email.
   const updateUser = userRef.child(userId)
 
   updateUser.update({

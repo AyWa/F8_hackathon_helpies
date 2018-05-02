@@ -118,6 +118,7 @@ const messageHandle = (event) => {
         // sendMessageZero(senderId)
       } else {
         console.log("handler answer 1");
+        firebaseClient.addRoleToUser({userId: senderId, role: message})
         firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
       }
     } else if (nb === 1) {
