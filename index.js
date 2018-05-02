@@ -116,3 +116,20 @@ const getLocationFromUserMessage = message => {
 }
 // example of how to use getLocationFromUserMessage
 getLocationFromUserMessage("I am from seoul").then(location => console.log(location))
+
+
+// helper function to get user keyword
+// return array of keyword
+const getKeyWordsFromUserMessage = message => {
+  return new Promise(function(resolve, reject) {
+    client.message(message, {})
+    .then((data) => {
+      // TODO: Get the best confidence instead of first value
+      const keywords = safe(_ => data.entities.needs.map(({value}) => value), "")
+      resolve(keywords)
+    })
+    .catch(console.error);
+  });
+}
+// example of how to use getLocationFromUserMessage
+getKeyWordsFromUserMessage("I need a webapp").then(keywords => console.log(keywords))
