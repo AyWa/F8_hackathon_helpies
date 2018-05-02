@@ -184,7 +184,7 @@ const messageHandle = (event) => {
         }
       })
     } else if (nb === 3) {
-      console.log("handler answer 3");
+      console.log("handler answer 4");
       const message = safe(() => event.message.text, "")
       console.log(`message ${message}`);
       firebaseClient.addIntroduction({userId: senderId, introduction: message})
