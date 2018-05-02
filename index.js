@@ -113,7 +113,7 @@ const sendMessageTwo = ({senderId, role}) => {
 
 const sendMessageThree = ({senderId, role}) => {
   return sendMessage(senderId, {text: role === "organizer" ?
-    "Thank you we will match some volonteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/":
+    "Thank you we will match you with some volonteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/":
     "Thank you for your help to the community ;)."})
 }
 
