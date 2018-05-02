@@ -164,7 +164,7 @@ const messageHandle = (event) => {
               firebaseClient.addUserExperiences({userId: senderId, experiences: keywords})
             }
             firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 3})
-            sendMessageThree({userId: senderId, role: role})
+            sendMessageThree({senderId, role: role})
           })
         }
       })
