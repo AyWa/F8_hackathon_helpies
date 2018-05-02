@@ -12,6 +12,7 @@ firebase.initializeApp({
 });
 
 const userRef = firebase.database().ref("/users/")
+const userBotQuestions = firebase.database().ref("/botQuestions/")
 const experiencesRef = firebase.database().ref("/experiences/")
 const needsRef = firebase.database().ref("/needs/")
 
@@ -26,6 +27,13 @@ exports.createUsers = ({userId, email = "", name = "", location = ""}) => {
 
   var newUserId = newUser.key;
   console.log("A new user item:" + newUserId + " is created.");
+}
+
+exports.setUserBotQuestions = ({userId, nbQuestions}) => {
+  const nbQuestions = userBotQuestions.child(userId)
+
+  nbQuestions.set(nbQuestions)
+  console.log(`user ${userId} answer question ${nbQuestions}`);
 }
 
 exports.addLocationToUser = ({userId, location = ""}) => {
