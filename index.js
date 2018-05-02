@@ -83,7 +83,7 @@ function processPostback(event) {
       var message = greeting + "My name is Helpies Bot. We are matching volonteers and organizers";
       // create user in firebase:
       firebaseClient.createUsers({userId: senderId, name})
-      // sendMessage(senderId, {text: message});
+      sendMessage(senderId, {text: message});
       // questions 0
       sendQuickReplyMessage({
         recipientId: senderId,
@@ -125,20 +125,19 @@ function sendMessage(recipientId, message) {
   });
 }
 
-const sendQuickReplyMessage = ({recipientId, text, messages = []}) => {
+const sendQuickReplyMessage = ({recipientId, text = "", messages = []}) => {
+  console.log("will try to send quick reply Message");
   request({
     url: "https://graph.facebook.com/v2.6/me/messages",
     qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
     method: "POST",
     json: {
-      "recipient":{
-        "id": recipientId,
-      },
+      recipient: {"id": recipientId},
       "message":{
         "text": text,
         "quick_replies": messages.map(text => ({
-          "content_type": text,
-          "title":"Search",
+          "content_type": "text",
+          "title": text,
           "payload":"<POSTBACK_PAYLOAD>",
           // "image_url":"http://example.com/img/red.png"
         })),
