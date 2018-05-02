@@ -2,10 +2,10 @@
   "name": "helpies",
   "version": "1.0.0",
   "description": "helpies Server",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" &amp;&amp; exit 1",
-    "start": "node app.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
