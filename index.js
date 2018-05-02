@@ -145,7 +145,17 @@ const messageHandle = (event) => {
     } else if (nb === 2) {
       console.log("handler answer 2");
       const message = safe(() => event.message.text)
-
+      getKeyWordsFromUserMessage(message).then(keywords => {
+        if (keywords) {
+          firebaseClient.getUserRole({userId: senderId}).then(role => {
+            if (role === "organizer") {
+              addUserNeeds({userId: senderId, needs: keywords})
+            } else {
+              addUserExperiences({userId: senderId, needs: keywords})
+            }
+          })
+        }
+      })
     }
   })
   // console.log(message);
@@ -249,5 +259,5 @@ const getKeyWordsFromUserMessage = message => {
 // firebaseClient.createUsers({userId: "idFromFacebookTest", name: "test"})
 // firebaseClient.addLocationToUser({userId: "idFromFacebookTest", location: "seoul"})
 // firebaseClient.addUserExperiences({userId: "idFromFacebookTest", experiences: ["webapp", "yolo"]})
-// firebaseClient.needs({userId: "idFromFacebookTest", needs: ["app"]})
+// firebaseClient.addUserNeeds({userId: "idFromFacebookTest", needs: ["app"]})
 // firebaseClient.getUserBotQuestionsNb({userId: 1634780963305366}).then(nb => console.log(nb))

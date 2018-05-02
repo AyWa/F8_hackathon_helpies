@@ -84,7 +84,7 @@ exports.addUserExperiences = ({userId, experiences = []}) => {
   console.log(`${experiences.length} experiences are added to user ${userId}`);
 }
 
-exports.needs = ({userId, needs = []}) => {
+exports.addUserNeeds = ({userId, needs = []}) => {
   const newUserNeed = needsRef.child(userId)
 
   newUserNeed.set(needs)
