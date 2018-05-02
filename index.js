@@ -141,3 +141,5 @@ const getKeyWordsFromUserMessage = message => {
 // example to create user
 // firebaseClient.createUsers({userId: "idFromFacebookTest", name: "test"})
 // firebaseClient.addLocationToUser({userId: "idFromFacebookTest", location: "seoul"})
+// firebaseClient.addUserExperiences({userId: "idFromFacebookTest", experiences: ["webapp", "yolo"]})
+// firebaseClient.needs({userId: "idFromFacebookTest", needs: ["app"]})
