@@ -170,7 +170,6 @@ const messageHandle = (event) => {
           })
         } else if (message) {
           sendMessage(senderId, {text: `please try again with an other answer`})
-            .then(_ => sendMessageTwo({senderId, role}))
         }
       })
     }
