@@ -83,7 +83,7 @@ function processPostback(event) {
       var message = greeting + "My name is Helpies Bot. We are matching volonteers and organizers";
       // create user in firebase:
       firebaseClient.createUsers({userId: senderId, name})
-      sendMessage(senderId, {text: message});
+      // sendMessage(senderId, {text: message});
       // questions 0
       sendQuickReplyMessage({
         recipientId: senderId,
