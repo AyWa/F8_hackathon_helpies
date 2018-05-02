@@ -129,7 +129,7 @@ const messageHandle = (event) => {
       console.log("handler answer 2");
       const message = safe(() => event.message.text)
       getLocationFromUserMessage(message).then(location => {
-        console.log(`user ${userId} is from ${location}`);
+        console.log(`user ${senderId} is from ${location}`);
         if (location) {
           firebaseClient.addLocationToUser({userId: senderId, location})
           firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
