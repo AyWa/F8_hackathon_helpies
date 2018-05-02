@@ -89,21 +89,42 @@ function processPostback(event) {
       firebaseClient.createUsers({userId: senderId, name})
       sendMessage(senderId, {text: message}).then(_ => {
         // questions 0
-        sendQuickReplyMessage({
-          recipientId: senderId,
-          text: "Are you a volonteer or an organizer ?",
-          messages: ["volonteer", "organizer"],
-        })
+        sendMessageZero(senderId)
       })
     });
     firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 0})
   }
 }
-
+const sendMessageZero = senderId => {
+  return sendQuickReplyMessage({
+    recipientId: senderId,
+    text: "Are you a volonteer or an organizer ?",
+    messages: ["volonteer", "organizer"],
+  })
+}
 const messageHandle = (event) => {
   // get userBotNbQuestions
   console.log("PAYLOAD LOG", event);
-  // const senderId = sender.id
+  const senderId = safe(() => event.sender.id)
+  const message = safe(() => event.message.quick_reply)
+  if (!senderId) {
+    return
+  }
+
+  firebaseClient.getUserBotQuestionsNb({userId: senderId}).then(nb => {
+    if (nb === 0) {
+      if (message !== "volonteer" && message!== "organizer") {
+        sendMessageZero(senderId)
+      } else {
+        console.log("handler answer 1");
+        firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 1})
+      }
+    } else if (nb === 1) {
+      console.log("handler answer 2");
+      firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
+      return
+    }
+  })
   // console.log(message);
   // firebaseClient.getUserBotQuestionsNb({userId: senderId}).then(nb => {
   //   if (nb === 0) {
