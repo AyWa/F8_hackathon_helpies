@@ -13,15 +13,27 @@ firebase.initializeApp({
 
 const userRef = firebase.database().ref("/users/")
 
-exports.createUsers = ({userId, name, location = ""}) => {
-  // Fetch the user's email.
+exports.createUsers = ({userId, email = "", name = "", location = ""}) => {
   const newUser = userRef.child(userId)
 
   newUser.set({
     "name": name,
+    "email": email,
     "location": location,
   });
 
   var newUserId = newUser.key;
   console.log("A new user item:" + newUserId + " is created.");
+}
+
+exports.addLocationToUser = ({userId, location = ""}) => {
+  // Fetch the user's email.
+  const newUser = userRef.child(userId)
+
+  newUser.set({
+    "location": location,
+  });
+
+  var newUserId = newUser.key;
+  console.log(`location ${location} added to user ${userId}`);
 }

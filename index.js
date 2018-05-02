@@ -138,3 +138,4 @@ getKeyWordsFromUserMessage("I need a webapp").then(keywords => console.log(keywo
 
 // example to create user
 firebaseClient.createUsers({userId: "idFromFacebookTest", name: "test"})
+firebaseClient.addLocationToUser({userId: "idFromFacebookTest", location: "seoul"})
