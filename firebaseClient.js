@@ -57,6 +57,15 @@ exports.addRoleToUser = ({userId, role}) => {
   console.log(`role ${role} added to user ${userId}`);
 }
 
+exports.getUserRole = ({userId}) => {
+  const updateUser = userRef.child(userId)
+  return new Promise(resolve => {
+    updateUser.once("value", snapshot  => {
+      resolve(snapshot.val().role)
+    });
+  });
+}
+
 exports.addLocationToUser = ({userId, location = ""}) => {
   const updateUser = userRef.child(userId)
 

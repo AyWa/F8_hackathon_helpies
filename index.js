@@ -107,6 +107,10 @@ const sendMessageOne = senderId => {
   return sendMessage(senderId, {text: "What is your city ?"})
 }
 
+const sendMessageTwo = ({senderId, role}) => {
+  return sendMessage(senderId, {text: role === "organizer" ? "What skills do you need ?": "What are your skills ?"})
+}
+
 const messageHandle = (event) => {
   // get userBotNbQuestions
   console.log("PAYLOAD LOG", event);
@@ -133,11 +137,15 @@ const messageHandle = (event) => {
         if (location) {
           firebaseClient.addLocationToUser({userId: senderId, location})
           firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
+          firebaseClient.getUserRole({userId: senderId}).then(role => {
+            sendMessageTwo({senderId, role})
+          })
         }
       })
-      // getLocationFromUserMessage()
-      // console.log("handler answer 2");
-      // firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 2})
+    } else if (nb === 2) {
+      console.log("handler answer 2");
+      const message = safe(() => event.message.text)
+
     }
   })
   // console.log(message);
