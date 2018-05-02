@@ -85,7 +85,7 @@ function processPostback(event) {
       firebaseClient.createUsers({userId: senderId, name})
       sendMessage(senderId, {text: message});
     });
-    setUserBotQuestions({userId: senderId, nbQuestions: 0})
+    firebaseClient.setUserBotQuestions({userId: senderId, nbQuestions: 0})
     return
   }
   // get userBotNbQuestions

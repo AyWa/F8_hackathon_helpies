@@ -30,9 +30,9 @@ exports.createUsers = ({userId, email = "", name = "", location = ""}) => {
 }
 
 exports.setUserBotQuestions = ({userId, nbQuestions}) => {
-  const nbQuestions = userBotQuestions.child(userId)
+  const nbQuestionsDb = userBotQuestions.child(userId)
 
-  nbQuestions.set(nbQuestions)
+  nbQuestionsDb.set(nbQuestions)
   console.log(`user ${userId} answer question ${nbQuestions}`);
 }
 
