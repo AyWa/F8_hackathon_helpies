@@ -12,6 +12,8 @@ firebase.initializeApp({
 });
 
 const userRef = firebase.database().ref("/users/")
+const experiencesRef = firebase.database().ref("/experiences/")
+const needsRef = firebase.database().ref("/needs/")
 
 exports.createUsers = ({userId, email = "", name = "", location = ""}) => {
   const newUser = userRef.child(userId)
@@ -35,4 +37,20 @@ exports.addLocationToUser = ({userId, location = ""}) => {
   });
 
   console.log(`location ${location} added to user ${userId}`);
+}
+
+exports.addUserExperiences = ({userId, experiences = []}) => {
+  const newUserExperiences = experiencesRef.child(userId)
+
+  newUserExperiences.set(experiences)
+
+  console.log(`${experiences.length} experiences are added to user ${userId}`);
+}
+
+exports.needs = ({userId, needs = []}) => {
+  const newUserNeed = needsRef.child(userId)
+
+  newUserNeed.set(needs)
+
+  console.log(`${needs.length} needs are added to user ${userId}`);
 }
