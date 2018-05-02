@@ -185,7 +185,7 @@ const messageHandle = (event) => {
       console.log("handler answer 3");
       const message = safe(() => event.message.text, "")
       console.log(`message ${message}`);
-      firebase.addIntroduction({userId: senderId, introduction: message})
+      firebaseClient.addIntroduction({userId: senderId, introduction: message})
       firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 4})
       firebaseClient.getUserRole({userId: senderId}).then(role => {
         firebaseClient.getLocationUser({userId: senderId}).then(location =>
