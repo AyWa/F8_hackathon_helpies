@@ -113,10 +113,14 @@ const sendMessageTwo = ({senderId, role}) => {
   return sendMessage(senderId, {text: role === "organizer" ? "What skills do you need ?": "What are your skills ?"})
 }
 
-const sendMessageThree = ({senderId, role}) => {
+const sendMessageThree = ({senderId, role, skills, location}) => {
   return sendMessage(senderId, {text: role === "organizer" ?
-    "Thank you we will match you with some volunteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/":
-    "Thank you for your help to the community ;)."})
+    "Thank you we will match you with some volunteer that can help you. You can check it there: https://helpie-3c999.firebaseapp.com/."
+      + ` We also advice you to post on those hashtags ${skills.map(s => "https://www.instagram.com/explore/tags/" + s + "in" + location)}`
+    : "Thank you for your help to the community ;)."
+      + `You can also follow those hastags ${skills.map(s => "https://www.instagram.com/explore/tags/" + s + "in" + location)}`
+
+  })
 }
 
 const messageHandle = (event) => {
@@ -166,7 +170,9 @@ const messageHandle = (event) => {
               firebaseClient.addUserExperiences({userId: senderId, experiences: keywords})
             }
             firebaseClient.setUserBotQuestionsNb({userId: senderId, nbQuestions: 3})
-            sendMessageThree({senderId, role: role})
+            firebaseClient.getLocationUser({userId: senderId}).then(location =>
+              sendMessageThree({senderId, role: role, skills: keywords, location})
+            )
           })
         } else if (message) {
           sendMessage(senderId, {text: `please try again with an other answer`})

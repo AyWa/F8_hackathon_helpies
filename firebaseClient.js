@@ -76,6 +76,15 @@ exports.addLocationToUser = ({userId, location = ""}) => {
   console.log(`location ${location} added to user ${userId}`);
 }
 
+exports.getLocationUser = ({userId}) => {
+  const updateUser = userRef.child(userId)
+  return new Promise(resolve => {
+    updateUser.once("value", snapshot  => {
+      resolve(snapshot.val().location)
+    });
+  });
+}
+
 exports.addUserExperiences = ({userId, experiences = []}) => {
   const newUserExperiences = experiencesRef.child(userId)
 
