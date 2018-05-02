@@ -2,10 +2,19 @@ var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
 const {Wit, log} = require('node-wit');
+// firebase
+const admin = require("firebase-admin");
+const serviceAccount = require('path/to/serviceAccountKey.json');
 
 const client = new Wit({
   accessToken: process.env.WIT_TOKEN,
   logger: new log.Logger(log.DEBUG) // optional
+});
+
+// initializeFirebase
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
 });
 
 const safe = (f, def) => {
