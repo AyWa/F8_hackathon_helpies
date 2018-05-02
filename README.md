@@ -10,3 +10,7 @@ heroku app: `f8helpies`
 
 # front
 https://helpie-3c999.firebaseapp.com/
+
+# db
+open db:
+https://helpie-3c999.firebaseio.com/

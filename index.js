@@ -4,7 +4,6 @@ var bodyParser = require("body-parser");
 const {Wit, log} = require('node-wit');
 // firebase
 const admin = require("firebase-admin");
-const serviceAccount = require('path/to/serviceAccountKey.json');
 
 const client = new Wit({
   accessToken: process.env.WIT_TOKEN,
@@ -13,8 +12,7 @@ const client = new Wit({
 
 // initializeFirebase
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://<DATABASE_NAME>.firebaseio.com'
+  databaseURL: 'https://helpie-3c999.firebaseio.com/' // open DB
 });
 
 const safe = (f, def) => {
