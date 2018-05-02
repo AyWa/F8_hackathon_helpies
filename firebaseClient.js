@@ -1,5 +1,4 @@
 const firebase = require("firebase-admin");
-
 // initializeFirebase
 firebase.initializeApp({
   databaseURL: 'https://helpie-3c999.firebaseio.com/', // open DB
@@ -16,7 +15,7 @@ const userBotQuestions = firebase.database().ref("/botQuestions/")
 const experiencesRef = firebase.database().ref("/experiences/")
 const needsRef = firebase.database().ref("/needs/")
 
-exports.createUsers = ({userId, email = "", name = "", location = "", role = "", picture = ""}) => {
+const createUsers = ({userId, email = "", name = "", location = "", role = "", picture = ""}) => {
   const newUser = userRef.child(userId)
 
   newUser.set({
@@ -30,16 +29,18 @@ exports.createUsers = ({userId, email = "", name = "", location = "", role = "",
   var newUserId = newUser.key;
   console.log("A new user item:" + newUserId + " is created.");
 }
+exports.createUsers = createUsers;
 
-exports.setUserBotQuestionsNb = ({userId, nbQuestions}) => {
+const setUserBotQuestionsNb = ({userId, nbQuestions}) => {
   const nbQuestionsDb = userBotQuestions.child(userId)
 
   nbQuestionsDb.set(nbQuestions)
   console.log(`user ${userId} answer question ${nbQuestions}`);
 }
+exports.setUserBotQuestionsNb = setUserBotQuestionsNb
 
 // return promise with the nb of questions already answer
-exports.getUserBotQuestionsNb = ({userId}) => {
+const getUserBotQuestionsNb = ({userId}) => {
   const nbQuestionsDb = userBotQuestions.child(userId)
   return new Promise(resolve => {
     nbQuestionsDb.once("value", snapshot  => {
@@ -47,8 +48,9 @@ exports.getUserBotQuestionsNb = ({userId}) => {
     });
   });
 }
+exports.getUserBotQuestionsNb = getUserBotQuestionsNb
 
-exports.addRoleToUser = ({userId, role}) => {
+const addRoleToUser = ({userId, role}) => {
   const updateUser = userRef.child(userId)
 
   updateUser.update({
@@ -57,8 +59,9 @@ exports.addRoleToUser = ({userId, role}) => {
 
   console.log(`role ${role} added to user ${userId}`);
 }
+exports.addRoleToUser = addRoleToUser
 
-exports.getUserRole = ({userId}) => {
+const getUserRole = ({userId}) => {
   const updateUser = userRef.child(userId)
   return new Promise(resolve => {
     updateUser.once("value", snapshot  => {
@@ -66,8 +69,9 @@ exports.getUserRole = ({userId}) => {
     });
   });
 }
+exports.getUserRole = getUserRole
 
-exports.addLocationToUser = ({userId, location = ""}) => {
+const addLocationToUser = ({userId, location = ""}) => {
   const updateUser = userRef.child(userId)
 
   updateUser.update({
@@ -76,8 +80,10 @@ exports.addLocationToUser = ({userId, location = ""}) => {
 
   console.log(`location ${location} added to user ${userId}`);
 }
+exports.addLocationToUser = addLocationToUser
 
-exports.addIntroduction = ({userId, introduction}) => {
+
+const addIntroduction = ({userId, introduction}) => {
   const updateUser = userRef.child(userId)
 
   updateUser.update({
@@ -86,8 +92,10 @@ exports.addIntroduction = ({userId, introduction}) => {
 
   console.log(`introduction ${introduction} added to user ${userId}`);
 }
+exports.addIntroduction = addIntroduction
 
-exports.getLocationUser = ({userId}) => {
+
+const getLocationUser = ({userId}) => {
   const updateUser = userRef.child(userId)
   return new Promise(resolve => {
     updateUser.once("value", snapshot  => {
@@ -95,37 +103,82 @@ exports.getLocationUser = ({userId}) => {
     });
   });
 }
+exports.getLocationUser = getLocationUser
 
-exports.addUserExperiences = ({userId, experiences = []}) => {
+const addUserExperiences = ({userId, experiences = []}) => {
   const newUserExperiences = experiencesRef.child(userId)
 
   newUserExperiences.set(experiences)
 
   console.log(`${experiences.length} experiences are added to user ${userId}`);
 }
+exports.addUserExperiences = addUserExperiences
 
-exports.getSkills = ({userId, role}) => {
+
+const getSkills = ({userId, role, withId = false}) => {
   if (role === "organizer") {
     const newUserNeed = needsRef.child(userId)
     return new Promise(resolve => {
       newUserNeed.once("value", snapshot  => {
-        resolve(snapshot.val())
+        if (withId) {
+          resolve({id: userId, val: snapshot.val()})
+        } else {
+          resolve(snapshot.val())
+        }
       });
     });
   } else {
     const newUserExperiences = experiencesRef.child(userId)
     return new Promise(resolve => {
       newUserExperiences.once("value", snapshot  => {
-        resolve(snapshot.val())
+        if (withId) {
+          resolve({id: userId, val: snapshot.val()})
+        } else {
+          resolve(snapshot.val())
+        }
       });
     });
   }
 }
+exports.getSkills = getSkills
 
-exports.addUserNeeds = ({userId, needs = []}) => {
+const addUserNeeds = ({userId, needs = []}) => {
   const newUserNeed = needsRef.child(userId)
 
   newUserNeed.set(needs)
 
   console.log(`${needs.length} needs are added to user ${userId}`);
+}
+exports.addUserNeeds = addUserNeeds
+
+exports.getMatchingList = ({userId}) => {
+  return new Promise(function(resolve, reject) {
+    getLocationUser({userId}).then(location => {
+      getUserRole({userId}).then(role => {
+        getSkills({userId, role}).then(skills => {
+          userRef.once("value", snap  => {
+             const users = snap.val()
+             const usersIdWithRightLocation = []
+             Object.entries(users).forEach(([key, value]) => {
+               if (value.location === location && value.role === "organizer") {
+                 usersIdWithRightLocation.push(key)
+               }
+             });
+             // then check there skill needed
+             Promise.all(
+               usersIdWithRightLocation.map(id => getSkills({userId: id, role: "organizer", withId: true}))
+             ).then(a => {
+               const allId = a.filter(b => {
+                 if (b.val.filter(c => skills.includes(c)).length > 0) {
+                   return true
+                 }
+                 return false
+               }).map(z => z.id)
+               resolve(allId)
+             })
+          })
+        })
+      })
+    })
+  });
 }

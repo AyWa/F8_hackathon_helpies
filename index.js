@@ -195,7 +195,11 @@ const messageHandle = (event) => {
       firebaseClient.getUserRole({userId: senderId}).then(role => {
         firebaseClient.getLocationUser({userId: senderId}).then(location =>
           firebaseClient.getSkills({userId: senderId, role}).then(skills => {
-            sendMessageFour({senderId, role: role, skills, location})
+            sendMessageFour({senderId, role: role, skills, location}).then(_ => {
+              if (skills === "volunteer") {
+                sendRecommendation(senderId)
+              }
+            })
           })
         )
       })
@@ -304,3 +308,25 @@ const getKeyWordsFromUserMessage = message => {
 // firebaseClient.addUserExperiences({userId: "idFromFacebookTest", experiences: ["webapp", "yolo"]})
 // firebaseClient.addUserNeeds({userId: "idFromFacebookTest", needs: ["app"]})
 // firebaseClient.getUserBotQuestionsNb({userId: 1634780963305366}).then(nb => console.log(nb))
+
+const sendRecommendation = (userId) => {
+  firebaseClient.getMatchingList({userId})
+    .then(idMatch => {
+      try {
+        request({
+          url: "https://graph.facebook.com/v2.6/" + idMatch[0],
+          qs: {
+            access_token: process.env.PAGE_ACCESS_TOKEN,
+            fields: "link"
+          },
+          method: "GET"
+        }, (error, response, body) => {
+          var bodyObj = JSON.parse(body) || {}
+          const link = bodyObj.link || "fake facebook id: " + idMatch
+          sendMessage("1634780963305366", {text: `${bodyObj.link} is looking for someone with your skill!`})
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    })
+}
