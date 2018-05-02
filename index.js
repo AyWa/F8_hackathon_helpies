@@ -149,6 +149,7 @@ const messageHandle = (event) => {
       const message = safe(() => event.message.text)
       console.log(`message ${message}`);
       getKeyWordsFromUserMessage(message).then(keywords => {
+        console.log(`user ${senderId} need/has`, keywords);
         if (keywords) {
           firebaseClient.getUserRole({userId: senderId}).then(role => {
             if (role === "organizer") {
