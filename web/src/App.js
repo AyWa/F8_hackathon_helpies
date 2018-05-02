@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import {Button, Icon, Navbar, NavItem, Row, Col, Card, CardTitle, Collection, CollectionItem} from 'react-materialize';
+import {Button, Icon, Navbar, NavItem, Row, Col, Card, CardTitle, Collection, CollectionItem, CardPanel} from 'react-materialize';
 
 import Search from './components/search';
-import MeetupList from './components/meetupList';
+// import MeetupList from './components/meetupList';
 
 import logo from './logo.svg';
 import './App.css';
@@ -34,7 +34,7 @@ class App extends Component {
           img: "https://liferaftgroup.org/wp-content/uploads/2015/04/volunteer.jpg"
         }
       ]
-    }
+    };
   }
 
   render() {
@@ -47,14 +47,17 @@ class App extends Component {
         <NavItem href='get-started.html'><Icon>more_vert</Icon></NavItem>
       </Navbar>
       <Search />
-      <MeetupList />
+      
       <Row>
         <Col s={7} className='grid-example'>
-        <Card className='small'
-          header={<CardTitle 
-            image='https://betterlivesleeds.files.wordpress.com/2016/11/mowlogo.jpg?w=440&h=220'>Card Title</CardTitle>}
-          actions={[<a href='#'>This is a Link</a>]}>
-          I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.
+        <Card className='teal lighten-4 black-text'
+          header={<CardTitle className="black-text"
+            image='https://betterlivesleeds.files.wordpress.com/2016/11/mowlogo.jpg?w=440&h=220'><h5>Seeking for volunteers!</h5></CardTitle>}
+          actions={[<a href='#'>Learn more about us!</a>]}>
+          <p>Time: Tuesdays and Thursdays 7:00 PM</p>
+          <p>Location: 1 Hacker Way, Menlo Park, CA 94025</p>
+          
+          
         </Card>
         </Col>
         <Col s={5} className='grid-example'>
@@ -62,11 +65,13 @@ class App extends Component {
           {
             meetupListData.map(meetup => {
               return (
-                <Card>{meetup.title} 
-                  <div class="card-image">
-                    <img src={meetup.img}/>
-                  </div>
-                </Card>
+                <Col s={12} m={7}>
+                  <CardPanel className="small teal lighten-4 black-text">{meetup.title} 
+                    <div className="small card-image">
+                      <img src={meetup.img}/>
+                    </div>
+                  </CardPanel>
+                </Col>
               )
             })
           }
