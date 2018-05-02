@@ -85,11 +85,11 @@ function processPostback(event) {
         var bodyObj = JSON.parse(body);
         name = bodyObj.first_name;
         picture = bodyObj.picture;
-        greeting = "Hi " + name + ". " + picture.data;
+        greeting = "Hi " + name + ". ";
       }
       var message = greeting + "My name is Helpies Bot. We are matching volunteers and organizers";
       // create user in firebase:
-      firebaseClient.createUsers({userId: senderId, name, picture})
+      firebaseClient.createUsers({userId: senderId, name, picture: picture.data.url})
       sendMessage(senderId, {text: message}).then(_ => {
         // questions 0
         sendMessageZero(senderId)
