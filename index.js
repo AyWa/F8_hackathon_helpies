@@ -89,7 +89,7 @@ function processPostback(event) {
       }
       var message = greeting + "My name is Helpies Bot. We are matching volunteers and organizers";
       // create user in firebase:
-      firebaseClient.createUsers({userId: senderId, name})
+      firebaseClient.createUsers({userId: senderId, name, picture})
       sendMessage(senderId, {text: message}).then(_ => {
         // questions 0
         sendMessageZero(senderId)

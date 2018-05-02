@@ -16,7 +16,7 @@ const userBotQuestions = firebase.database().ref("/botQuestions/")
 const experiencesRef = firebase.database().ref("/experiences/")
 const needsRef = firebase.database().ref("/needs/")
 
-exports.createUsers = ({userId, email = "", name = "", location = "", role = ""}) => {
+exports.createUsers = ({userId, email = "", name = "", location = "", role = "", picture = ""}) => {
   const newUser = userRef.child(userId)
 
   newUser.set({
@@ -24,6 +24,7 @@ exports.createUsers = ({userId, email = "", name = "", location = "", role = ""}
     "email": email,
     "location": location,
     "role": role,
+    "picture": picture,
   });
 
   var newUserId = newUser.key;
