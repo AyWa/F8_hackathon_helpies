@@ -74,7 +74,7 @@ function processPostback(event) {
       url: "https://graph.facebook.com/v2.6/" + senderId,
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN,
-        fields: "first_name,picture"
+        fields: "first_name,picture.width(500).height(500)"
       },
       method: "GET"
     }, (error, response, body) => {
