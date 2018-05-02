@@ -2,17 +2,12 @@ var express = require("express");
 var request = require("request");
 var bodyParser = require("body-parser");
 const {Wit, log} = require('node-wit');
-// firebase
-const admin = require("firebase-admin");
+// firebase client
+var firebaseClient = require('./firebaseClient')
 
 const client = new Wit({
   accessToken: process.env.WIT_TOKEN,
   logger: new log.Logger(log.DEBUG) // optional
-});
-
-// initializeFirebase
-admin.initializeApp({
-  databaseURL: 'https://helpie-3c999.firebaseio.com/' // open DB
 });
 
 const safe = (f, def) => {
@@ -140,3 +135,6 @@ const getKeyWordsFromUserMessage = message => {
 }
 // example of how to use getLocationFromUserMessage
 getKeyWordsFromUserMessage("I need a webapp").then(keywords => console.log(keywords))
+
+// example to create user
+firebaseClient.createUsers({userId: "idFromFacebookTest", name: "test"})
