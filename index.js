@@ -155,7 +155,7 @@ const messageHandle = (event) => {
             if (role === "organizer") {
               firebaseClient.addUserNeeds({userId: senderId, needs: keywords})
             } else {
-              firebaseClient.addUserExperiences({userId: senderId, needs: keywords})
+              firebaseClient.addUserExperiences({userId: senderId, experiences: keywords})
             }
           })
         }
