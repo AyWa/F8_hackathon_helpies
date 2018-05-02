@@ -106,7 +106,7 @@ const messageHandle = (event) => {
   // get userBotNbQuestions
   console.log("PAYLOAD LOG", event);
   const senderId = safe(() => event.sender.id)
-  const message = safe(() => event.message.quick_reply)
+  const message = safe(() => event.message.quick_reply.payload)
   if (!senderId) {
     return
   }
