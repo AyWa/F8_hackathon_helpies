@@ -38,8 +38,6 @@ class App extends Component {
 
   async login() {
     const { user } = this.state;
-    console.log("hi");
-
     const result = await auth().signInWithPopup(provider)
     this.setState({user: result.user});
   }

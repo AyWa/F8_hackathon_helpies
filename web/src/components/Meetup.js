@@ -87,11 +87,19 @@ class Search extends Component {
         </div>
       </Card>
 
-      <div className="header">Members who selected</div>
+      <div class="fb-customerchat" 
+        // messenger_app_id="2106514809580301" 
+        page_id="1001394340017755"
+        // color="blue"
+        // size="standard"
+        >
+      </div>
+
+      <div className="sub-header">Members who selected</div>
       <Card style={{marginTop: "2.3rem"}}>
         <List
           itemLayout="horizontal"
-          dataSource={userList.filter(d => !d.picture)}
+          dataSource={userList.filter(d => ['Jay', 'Roy', 'Marc'].indexOf(d.name) >= 0)}
           renderItem={item => (
             <List.Item>
               <List.Item.Meta
@@ -99,16 +107,17 @@ class Search extends Component {
                 title={<a href="https://ant.design">{item.name}</a>}
                 description={item.introduction}
               />
-              <div>content</div>
+              <div className="location list-item">@{item.location}</div>
+              <div className="job list-item">{item.role}</div>
             </List.Item>
           )}
         />
       </Card>
-      <div className="header">Members who applied</div>
+      <div className="sub-header">Members who applied</div>
       <Card style={{marginTop: "2.3rem"}}>
         <List
         itemLayout="horizontal"
-        dataSource={userList.reverse()}
+        dataSource={userList}
         renderItem={item => (
           <List.Item>
             <List.Item.Meta

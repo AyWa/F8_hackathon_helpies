@@ -81,6 +81,12 @@ body {
   margin: 1rem 0;
 }
 
+.sub-header {
+  font-size: 2rem;
+  font-family: 'Patua One', cursive;
+  margin: 1.5rem 0 -1.5rem;
+}
+
 .meetup-info-box {
   display: flex;
 }
@@ -133,4 +139,11 @@ body {
 
 .ant-card {
   margin-bottom: 1rem;
+}
+
+
+
+
+.list-item {
+  margin-left: 1rem;
 }
