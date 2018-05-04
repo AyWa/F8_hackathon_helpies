@@ -47,14 +47,14 @@ class App extends Component {
     return (
       <div className="App">
         <Navbar brand='Helpies' right>
-        <NavItem href='get-started.html'><Icon>search</Icon></NavItem>
-        <NavItem href='get-started.html'><Icon>more_vert</Icon></NavItem>
-      </Navbar>
+          <NavItem href='get-started.html'><Icon>search</Icon></NavItem>
+          <NavItem href='get-started.html'><Icon>more_vert</Icon></NavItem>
+        </Navbar>
 
       <Search onSearchTermChange={termSearch}/>
       <Row>
         <Col s={7} className='grid-example'>
-        <Card className='small'
+        <Card className='card large'
           header={<CardTitle image='https://s3.ap-northeast-2.amazonaws.com/festa-temp/saturday-azure-live-1805-images/saturday-azure-live-1805-cover.png'>Card Title</CardTitle>}
           actions={[<a href='#'>This is a Link</a>]}>
           I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.
@@ -64,7 +64,17 @@ class App extends Component {
         <Collection>
           {
             meetupListData.map(meetup => {
-              return <CollectionItem>{meetup.title}</CollectionItem>
+              return (
+                <div class="card small">
+                  <CollectionItem class="card horizontal">{meetup.title}
+                    <div class="card-image">
+                      <img src={meetup.img}/>
+                    </div>
+                  </CollectionItem>
+                </div>
+                
+              )
+               
             })
           }
         </Collection>
