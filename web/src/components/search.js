@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'react-materialize';
+import { textarea } from 'react-materialize';
 import _ from 'lodash';
 
 class Search extends Component {
@@ -21,8 +21,8 @@ class Search extends Component {
 
   render() {
     return (
-      <div>
-        <Input placeholder="Search..." onChange={this.inputChange} s={6} label="Search for volunteers!" />
+      <div class="input">
+        <textarea placeholder="Search..." onChange={this.inputChange} s={6} />
       </div>
     );
   }

@@ -57,7 +57,10 @@ class App extends Component {
         <Card className='card large'
           header={<CardTitle image='https://s3.ap-northeast-2.amazonaws.com/festa-temp/saturday-azure-live-1805-images/saturday-azure-live-1805-cover.png'></CardTitle>}
           actions={[<a href='https://www.google.com'>Sign up!</a>]}>
-          We are looking for volunteers for the month of May! Pleasegi
+          <p>We are looking for volunteers for the month of May!</p>
+          <p>Please feel free to visit our Facebook Page to learn more about us</p>
+          
+          
         </Card>
         </Col>
         <Col s={5} className='grid-example'>
