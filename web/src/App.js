@@ -55,9 +55,9 @@ class App extends Component {
       <Row>
         <Col s={7} className='grid-example'>
         <Card className='card large'
-          header={<CardTitle image='https://s3.ap-northeast-2.amazonaws.com/festa-temp/saturday-azure-live-1805-images/saturday-azure-live-1805-cover.png'>Card Title</CardTitle>}
-          actions={[<a href='#'>This is a Link</a>]}>
-          I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.
+          header={<CardTitle image='https://s3.ap-northeast-2.amazonaws.com/festa-temp/saturday-azure-live-1805-images/saturday-azure-live-1805-cover.png'></CardTitle>}
+          actions={[<a href='https://www.google.com'>Sign up!</a>]}>
+          We are looking for volunteers for the month of May! Pleasegi
         </Card>
         </Col>
         <Col s={5} className='grid-example'>
@@ -65,14 +65,13 @@ class App extends Component {
           {
             meetupListData.map(meetup => {
               return (
-                <div class="card small">
+                <div class="card tiny">
                   <CollectionItem class="card horizontal">{meetup.title}
                     <div class="card-image">
                       <img src={meetup.img}/>
                     </div>
                   </CollectionItem>
                 </div>
-                
               )
                
             })
