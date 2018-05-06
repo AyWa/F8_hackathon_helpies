@@ -10,11 +10,26 @@ class Search extends Component {
       term: ''
     };
     this.inputChange = this.inputChange.bind(this);
+    this.termSearch = this.termSearch.bind(this)
 
   }
   inputChange(e){
     this.setState({term: e.target.value});
-    // this.props.termSearch(e.target.value);
+    console.log('input change', this.state.term)
+    return this.termSearch(this.state.term)
+  }
+
+  termSearch(term) {
+    var meetUpData = this.props.meetupListData;
+    //filter based on search
+    var filterData = meetUpData.filter(meetUp => {
+      //note includes is case sensitive
+      return meetUp.title.includes(term)
+    })
+    console.log('filter', filterData)
+
+    //pass child back to parent
+    
   }
 
 
@@ -31,16 +46,3 @@ class Search extends Component {
 }
 
 export default Search;
-
-
-    // filterSearch(term) {
-    //   var data = this.props.meetupListData;
-    //   return data.filter(item => {
-    //     console.log(this.state.term)
-    //     console.log(item.title)
-    //     if(term.includes(item.title)) {
-    //       console.log('hi')
-    //     } else {
-    //       console.log('nope')
-
-        // }

@@ -4,8 +4,6 @@ import {Button, Icon, Navbar, NavItem, Row, Col, Card, CardTitle, Collection, Co
 import Search from './components/search.js';
 import logo from './logo.svg';
 import './App.css';
-import _ from 'lodash';
-
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +15,6 @@ class App extends Component {
           title: "Korea azure day",
           img: "https://s3.ap-northeast-2.amazonaws.com/festa-temp/saturday-azure-live-1805-images/saturday-azure-live-1805-cover.png",
           key: 1234131231237
-         
         }, {
           title: "F8 hackathon",
           img: "https://s3.ap-northeast-2.amazonaws.com/festa-temp/django-girls-images/django-girls-cover.png",
@@ -33,15 +30,12 @@ class App extends Component {
         }
       ]
     }
+    
   }
-  termSearch(term) {
-    this.setState({term: term});
-  }
-  
 
   render() {
     const { meetupListData } = this.state;
-    const termSearch = _.debounce(term => { this.termSearch(term) }, 500);
+   
 
 
     return (
@@ -51,7 +45,7 @@ class App extends Component {
           <NavItem href='get-started.html'><Icon>more_vert</Icon></NavItem>
         </Navbar>
 
-      <Search onSearchTermChange={termSearch}/>
+      <Search meetupListData={this.state.meetupListData}/>
       <Row>
         <Col s={7} className='grid-example'>
         <Card className='card large'
