@@ -1,7 +1,7 @@
 const firebase = require("firebase-admin");
 // initializeFirebase
 firebase.initializeApp({
-  databaseURL: 'https://helpie-3c999.firebaseio.com/', // open DB
+  databaseURL: process.env.DB, // open DB
   credential: {
     getAccessToken: () => ({
       expires_in: 0,
